@@ -23,16 +23,16 @@ public class opportunity extends SelUtility{
 			
 			clickOnOpportunityTab();
 		//	CheckOpportunitydropDown();
-			//CreateNewOpportunity();
+			CreateNewOpportunity();
 			//OpportunityPipeLine();
 			//StruckOpportunityPipeLine();
-			QuaterlyReport();
+			//QuaterlyReport();
 			
 
 		} catch (Exception E) {
 			E.printStackTrace();
 		} finally {
-			quitBrowser();
+			//quitBrowser();
 		}
 
 	}
@@ -71,29 +71,59 @@ public class opportunity extends SelUtility{
 		driver.findElement(By.xpath("//td//input[@value=' New ']")).click();
 		Thread.sleep(1000);
 		driver.findElement(By.xpath("//input[@id=\"opp3\"]")).sendKeys("Opportunity 1");
-		driver.findElement(By.xpath("//input[@id='opp4']")).sendKeys("Opp Test");
+		driver.findElement(By.xpath("//img[@alt=\"Account Name Lookup (New Window)\"]")).click();
+		Thread.sleep(3000);
+		ArrayList<String> windowsTabs = new ArrayList<String>(driver.getWindowHandles());
+		System.out.println(windowsTabs.size());
+		driver.switchTo().window(windowsTabs.get(1));
+		//driver.getWindowHandles();
+		driver.switchTo().frame(driver.findElement(By.id("searchFrame")));
+	    driver.findElement(By.id("lksrch")).sendKeys("");
+	    driver.findElement(By.xpath("//input[@value=' Go! ']")).click();
+	
+		driver.switchTo().defaultContent();
+		driver.switchTo().frame(driver.findElement(By.id("resultsFrame")));
+				//driver.findElement(By.id("resultsFrame")));
+		driver.findElement(By.xpath("//tr[2]//a[@href=\"#\"]")).click();
+		
+		driver.switchTo().window(windowsTabs.get(0));
+		Thread.sleep(3000);
+		
+		
+		//driver.findElement(By.xpath("//frame[@title='Results']"));
+		/*List<WebElement>list = driver.findElements(By.xpath("//table[@class='list']"));
+		System.out.println("Inside Valuses"+list.size());
+		for(int count=0;count<list.size();count++) {
+			
+				System.out.println(list.get(count).getText());
+			
+		}
+		*/
+		Thread.sleep(3000);
+		//driver.findElement(By.xpath("//input[@id='opp4']")).sendKeys("");
+		
 		
 		 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
-		   LocalDateTime now = LocalDateTime.now();  
-		   System.out.println(dtf.format(now));  
-			driver.findElement(By.xpath("//input[@id='opp9']")).sendKeys(dtf.format(now));
+		  LocalDateTime now = LocalDateTime.now();  
+		  System.out.println(dtf.format(now));  
+		driver.findElement(By.xpath("//input[@id='opp9']")).sendKeys(dtf.format(now));
 		   
 
-			Select select = new Select(driver.findElement(By.xpath("//select[@id='opp11']")));
-			select.selectByIndex(1);
+		Select select = new Select(driver.findElement(By.xpath("//select[@id='opp11']")));
+		select.selectByIndex(1);
 			
 
-			Select select1 = new Select(driver.findElement(By.xpath("//select[@id='opp6']")));
-			select1.selectByIndex(1);
+		Select select1 = new Select(driver.findElement(By.xpath("//select[@id='opp6']")));
+		select1.selectByIndex(1);
 			
-			
-			
-	
+		driver.findElement(By.xpath("//input[@id='opp12']")).clear();
 		driver.findElement(By.xpath("//input[@id='opp12']")).sendKeys("3");
-		driver.findElement(By.xpath("//input[@id='opp17']")).sendKeys("last Time");
+		driver.findElement(By.xpath("//input[@id='opp17']")).sendKeys("");
 		
 		driver.findElement(By.xpath("//input[@value=' Save ']")).click();
 	
+		Thread.sleep(6000);
+
 		
 	}
 

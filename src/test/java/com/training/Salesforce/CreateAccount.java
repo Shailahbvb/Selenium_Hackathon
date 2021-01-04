@@ -9,6 +9,7 @@ import java.util.List;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
 public class CreateAccount extends SelUtility{
@@ -27,7 +28,7 @@ public class CreateAccount extends SelUtility{
 			
 			//MergeAccount();
 			
-		//	CreateReports();
+			CreateReports();
 			
 			
 
@@ -35,7 +36,7 @@ public class CreateAccount extends SelUtility{
 			E.printStackTrace();
 		}finally
 		{
-			//quitBrowser();
+			quitBrowser();
 		}
 
   }
@@ -44,25 +45,32 @@ public class CreateAccount extends SelUtility{
 		driver.findElement(By.xpath("//li[@id='Account_Tab']")).click();
 		  Thread.sleep(3000);
 		
-		
-		
+		  driver.switchTo().activeElement();
+		  driver.findElement(By.xpath("//div//a[@id='tryLexDialogX']")).click();
+			
+		  driver.switchTo().activeElement();
+		  Thread.sleep(3000);
 		
 	}
 
-	private static void CreateReports() throws InterruptedException {
-		
-
+	private static void CreateReports() throws InterruptedException, AWTException {
 		
 		driver.findElement(By.partialLinkText("last activity >")).click();
 		Thread.sleep(1000);
 		
-		WebElement ele =driver.findElement(By.xpath("//input[@id='ext-gen20']"));
+		WebElement ele = driver.findElement(By.xpath("//input[@id='ext-gen20']"));
 		ele.click();
-		ele.sendKeys("Created Date");;
+		
+		
+		Actions action = new Actions(driver);
+	
+		action.moveToElement(driver.findElement(By.xpath("//div[@class='x-combo-list-item'][1]"))).click().build().perform();
+
+		//ele.sendKeys("Created Date");;
 		Thread.sleep(1000);
 		//driver.findElement(By.xpath("//img[@id='ext-gen152']")).click();
 		driver.findElement(By.xpath("//input[@name=\"startDate\"]")).clear();
-				driver.findElement(By.xpath("//input[@name=\"startDate\"]")).sendKeys("1/2/2021");
+		driver.findElement(By.xpath("//input[@name=\"startDate\"]")).sendKeys("1/2/2021");
 		Thread.sleep(3000);
 	//	driver.findElement(By.xpath("//button[@id='ext-gen329']")).click();
 		
@@ -77,7 +85,7 @@ public class CreateAccount extends SelUtility{
 		//button[@id='ext-gen348']
 		//Thread.sleep(1000);
 		driver.findElement(By.xpath("//table[@class='x-grid3-row-table']")).click();
-		Thread.sleep(1000);
+		Thread.sleep(4000);
 		driver.findElement(By.xpath("//table[@id='saveReportBtn']")).click();
 		
 		//driver.switchTo(driver.findElement(By.id("saveReportDlg")));
@@ -85,19 +93,15 @@ public class CreateAccount extends SelUtility{
 		ArrayList<String> windows = new ArrayList<String>(driver.getWindowHandles());
 		System.out.println(windows.size());
 		driver.switchTo().window(windows.get(0));
-		driver.findElement(By.xpath("//input[@id='saveReportDlg_reportNameField']")).sendKeys("Test");
+		driver.findElement(By.xpath("//input[@id='saveReportDlg_reportNameField']")).sendKeys("Test3");
 		
-		driver.findElement(By.xpath("//input[@id='saveReportDlg_DeveloperName']")).sendKeys("Test_1");
+		driver.findElement(By.xpath("//input[@id='saveReportDlg_DeveloperName']")).sendKeys("Test_3");
 		
 		Thread.sleep(3000);
 	
 		driver.findElement(By.xpath("//table[@id='dlgSaveAndRun']")).click();
 		Thread.sleep(3000);
-		
-		
-				
-		
-		
+
 	}
 
 	private static void MergeAccount() throws InterruptedException {
@@ -116,9 +120,7 @@ public class CreateAccount extends SelUtility{
 		
 		driver.findElement(By.xpath("//input[@value=' Merge ']")).click();
 		Thread.sleep(3000);
-		
-	
-		
+
 	}
 
 	private static void EditView() throws InterruptedException {
@@ -155,10 +157,7 @@ public class CreateAccount extends SelUtility{
 		
 		
 		driver.findElement(By.xpath("//td//input[@value=\" Save \"]")).click();
-		
-		
-		
-		
+
 	}
 
 	private static void CreateNewAccount() throws InterruptedException, AWTException {
@@ -172,9 +171,6 @@ public class CreateAccount extends SelUtility{
 		Thread.sleep(1000);
 		
 		driver.findElement(By.xpath("//td//input[@id='acc5']")).sendKeys("123445677");
-		
-		
-		
 		
 		Select select = new Select(driver.findElement(By.xpath("//select[@id='acc6']")));
 		select.selectByValue("Technology Partner");
