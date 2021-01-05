@@ -1,8 +1,10 @@
 package com.training.Salesforce;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -16,11 +18,12 @@ public class RandomScenarios extends SelUtility{
 			goToSalesForceURL();
 			loginToSalesForcePortal();
 			ClickOnHomeTab();
-			//VerifyLastNameMultiple();
+			Properties prop = readPropertiesFile();
+			VerifyLastNameMultiple(prop);
 			//VerifyAddingNewTab();
 			
-		//	BlockingEventINCalender();
-			//BlockingEventINCalenderWeekly();
+	    	BlockingEventINCalender(prop);
+	    	BlockingEventINCalenderWeekly(prop);
 			
 			}catch(Exception E) {
 				E.printStackTrace();
@@ -30,7 +33,7 @@ public class RandomScenarios extends SelUtility{
 			}
 	}
 
-	private static void BlockingEventINCalenderWeekly() throws InterruptedException {
+	private static void BlockingEventINCalenderWeekly(Properties prop) throws InterruptedException {
 		driver.findElement(By.linkText("Home")).click();
 		Thread.sleep(3000);
 		
@@ -62,7 +65,7 @@ public class RandomScenarios extends SelUtility{
 		   driver.findElement(By.xpath("//input[@id='EndDateTime']")).clear();
 		driver.findElement(By.xpath("//input[@id='EndDateTime']")).sendKeys(dtf.format(now));
 		
-		driver.findElement(By.xpath("//input[@id='EndDateTime_time']")).sendKeys("9:00 PM");
+		driver.findElement(By.xpath("//input[@id='EndDateTime_time']")).sendKeys(prop.getProperty("End_time"));
 		
 		driver.findElement(By.xpath("//input[@value=' Save ']")).click();
 		Thread.sleep(3000);
@@ -70,7 +73,7 @@ public class RandomScenarios extends SelUtility{
 		
 	}
 
-	private static void BlockingEventINCalender() throws InterruptedException {
+	private static void BlockingEventINCalender(Properties prop) throws InterruptedException {
 		driver.findElement(By.linkText("Home")).click();
 		Thread.sleep(3000);
 		driver.findElement(By.xpath("//span[@class='pageDescription']//a")).click();
@@ -88,7 +91,7 @@ public class RandomScenarios extends SelUtility{
 		   driver.findElement(By.xpath("//input[@id='EndDateTime']")).clear();
 		driver.findElement(By.xpath("//input[@id='EndDateTime']")).sendKeys(dtf.format(now));
 		
-		driver.findElement(By.xpath("//input[@id='EndDateTime_time']")).sendKeys("9:00 PM");
+		driver.findElement(By.xpath("//input[@id='EndDateTime_time']")).sendKeys(prop.getProperty("End_time"));
 		
 		driver.findElement(By.xpath("//input[@value=' Save ']")).click();
 		Thread.sleep(3000);
@@ -96,14 +99,14 @@ public class RandomScenarios extends SelUtility{
 		
 	}
 
-	private static void VerifyAddingNewTab() throws InterruptedException {
+	private static void VerifyAddingNewTab() throws InterruptedException, IOException {
 		driver.findElement(By.xpath("//li[@id='AllTab_Tab']//a//img")).click();
 		AddNewTab();
 		Thread.sleep(3000);
 		RemoveAddedTab();
 	}
 
-	private static void RemoveAddedTab() throws InterruptedException {
+	private static void RemoveAddedTab() throws InterruptedException, IOException {
 		driver.findElement(By.xpath("//input[@value='Customize My Tabs']")).click();
 		Thread.sleep(3000);
 		//Select select = new Select(driver.findElement(By.id("p4")));
@@ -145,7 +148,7 @@ public class RandomScenarios extends SelUtility{
 		
 	}
 
-	private static void VerifyLastNameMultiple() throws InterruptedException {
+	private static void VerifyLastNameMultiple(Properties prop) throws InterruptedException {
 		driver.findElement(By.linkText("Home")).click();
 		Thread.sleep(3000);
 		driver.findElement(By.xpath("//div[@id='mru0054x000002LeWe']//a")).click();
@@ -162,7 +165,7 @@ public class RandomScenarios extends SelUtility{
 		
 		WebElement webEle2 = driver.findElement(By.id("lastName"));
 		webEle2.clear();
-		webEle2.sendKeys("Abcd");
+		webEle2.sendKeys(prop.getProperty("random_lastName"));
 		driver.findElement(By.xpath("//input[@value='Save All']")).click();
 		
 		driver.switchTo().defaultContent();

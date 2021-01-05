@@ -1,6 +1,8 @@
 package com.training.Salesforce;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,7 +16,7 @@ public class Leads extends SelUtility{
 				launchBrowser();
 				goToSalesForceURL();
 				loginToSalesForcePortal();
-				
+				Properties prop = readPropertiesFile();
 				clickOnLeadTab();
 				CheckLeadDropDown();
 				//CreateNewOpportunity();
@@ -23,7 +25,7 @@ public class Leads extends SelUtility{
 				//QuaterlyReport();
 				
 				//SelectMyLeads();
-				NewTabOnLeadsTab();
+				NewTabOnLeadsTab(prop);
 				
 
 			} catch (Exception E) {
@@ -34,11 +36,11 @@ public class Leads extends SelUtility{
 
 	}
 
-	private static void NewTabOnLeadsTab() throws InterruptedException {
+	private static void NewTabOnLeadsTab(Properties prop) throws InterruptedException {
 		driver.findElement(By.xpath("//td//input[@value=' New ']")).click();
 		
-		driver.findElement(By.xpath("//input[@id='name_lastlea2']")).sendKeys("ABCDE");
-		driver.findElement(By.xpath("//input[@id='lea3']")).sendKeys("ABCDE");
+		driver.findElement(By.xpath("//input[@id='name_lastlea2']")).sendKeys(prop.getProperty("lead_last_name"));
+		driver.findElement(By.xpath("//input[@id='lea3']")).sendKeys(prop.getProperty("lead_last_name"));
 		
 		Select sel = new Select (driver.findElement(By.xpath("//select[@id='lea13']")));
 		sel.selectByIndex(1);
@@ -49,7 +51,7 @@ public class Leads extends SelUtility{
 		
 	}
 
-	private static void SelectMyLeads() throws InterruptedException {
+	private static void SelectMyLeads() throws InterruptedException, IOException {
 		Select sel = new Select (driver.findElement(By.xpath("//select[@id='fcf']")));
 		sel.selectByValue("00B4x000007asbY");
 		WebElement webe= driver.findElement(By.xpath("//div[@id='userNav']"));

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -20,10 +21,10 @@ public class opportunity extends SelUtility{
 			launchBrowser();
 			goToSalesForceURL();
 			loginToSalesForcePortal();
-			
+			Properties prop = readPropertiesFile();
 			clickOnOpportunityTab();
 		//	CheckOpportunitydropDown();
-			CreateNewOpportunity();
+			CreateNewOpportunity(prop);
 			//OpportunityPipeLine();
 			//StruckOpportunityPipeLine();
 			//QuaterlyReport();
@@ -67,10 +68,10 @@ public class opportunity extends SelUtility{
 		
 	}
 
-	private static void CreateNewOpportunity() throws InterruptedException {
+	private static void CreateNewOpportunity(Properties prop) throws InterruptedException {
 		driver.findElement(By.xpath("//td//input[@value=' New ']")).click();
 		Thread.sleep(1000);
-		driver.findElement(By.xpath("//input[@id=\"opp3\"]")).sendKeys("Opportunity 1");
+		driver.findElement(By.xpath("//input[@id=\"opp3\"]")).sendKeys(prop.getProperty(prop.getProperty("opportunity_name"))+System.currentTimeMillis());
 		driver.findElement(By.xpath("//img[@alt=\"Account Name Lookup (New Window)\"]")).click();
 		Thread.sleep(3000);
 		ArrayList<String> windowsTabs = new ArrayList<String>(driver.getWindowHandles());
@@ -90,23 +91,15 @@ public class opportunity extends SelUtility{
 		Thread.sleep(3000);
 		
 		
-		//driver.findElement(By.xpath("//frame[@title='Results']"));
-		/*List<WebElement>list = driver.findElements(By.xpath("//table[@class='list']"));
-		System.out.println("Inside Valuses"+list.size());
-		for(int count=0;count<list.size();count++) {
-			
-				System.out.println(list.get(count).getText());
-			
-		}
-		*/
+		
 		Thread.sleep(3000);
 		//driver.findElement(By.xpath("//input[@id='opp4']")).sendKeys("");
 		
 		
 		 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
-		  LocalDateTime now = LocalDateTime.now();  
-		  System.out.println(dtf.format(now));  
-		driver.findElement(By.xpath("//input[@id='opp9']")).sendKeys(dtf.format(now));
+		 LocalDateTime now = LocalDateTime.now();  
+		 System.out.println(dtf.format(now));  
+		 driver.findElement(By.xpath("//input[@id='opp9']")).sendKeys(dtf.format(now));
 		   
 
 		Select select = new Select(driver.findElement(By.xpath("//select[@id='opp11']")));
